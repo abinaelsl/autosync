@@ -15,18 +15,40 @@ it automatically:
 
 No cuts. No manual clapper-finding. Output: `<videoname>_synced.mp4`.
 
-## Quick start (the easy way)
+## Install once
+
+**Easy way — double-click `setup.command`.** It installs ffmpeg + python +
+the Python libraries automatically.
+
+**Or do it manually in Terminal:**
+
+```bash
+# 1. Homebrew (macOS package manager) — skip if you already have it
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 2. ffmpeg (the only hard requirement besides python)
+brew install ffmpeg
+
+# 3. python (most Macs already have python3; install if not)
+brew install python
+
+# 4. AutoSync's Python libraries (numpy/scipy) — auto-installed on first run,
+#    or trigger it now:
+python3 autosync.py --setup
+```
+
+> `numpy`/`scipy` live in an isolated `~/.autosync_venv` — they won't touch your
+> system Python. Setup needs internet once; after that everything is instant and
+> offline.
+
+## Quick start
 
 1. Make a folder and put inside it:
    - your **video** (e.g. `C0191.MP4`)
    - each **audio recording** (e.g. `abi.m4a`, `anh.m4a`) — one or more
-   - `autosync.py`
-   - `run.command`
+   - `autosync.py`, `run.command` (and `setup.command` if you haven't set up yet)
 2. Double-click **`run.command`**.
 3. You get `<videoname>_synced.mp4` in that folder.
-
-> First run installs `numpy`/`scipy` into `~/.autosync_venv` automatically
-> (one-time, needs internet). After that it's instant.
 
 ## Command line
 
@@ -57,8 +79,12 @@ Negative offset → it started **after** (silence is padded in front).
 
 ## Requirements
 
+- **macOS** (the `.command` launchers are macOS; the Python script itself is
+  cross-platform if you run it directly)
 - **ffmpeg** + **ffprobe** on `PATH` — `brew install ffmpeg`
-- **python3** (numpy/scipy auto-installed on first run)
+- **python3** (numpy/scipy auto-installed into `~/.autosync_venv` on first run)
+
+Run `setup.command` once and all of the above is handled for you.
 
 ## Notes & limitations
 

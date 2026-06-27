@@ -195,7 +195,21 @@ def main():
     ap.add_argument("--reencode", action="store_true", help="Re-encode video instead of lossless copy.")
     ap.add_argument("--dry-run", action="store_true", help="Detect files + print offsets, render nothing.")
     ap.add_argument("--no-verify", action="store_true", help="Skip the final re-correlation check.")
+    ap.add_argument("--setup", action="store_true",
+                    help="Install/verify dependencies and exit (used by setup.command).")
     args = ap.parse_args()
+
+    if args.setup:
+        # ensure_deps() already ran at import, so numpy/scipy exist by now.
+        import numpy as _np
+        import scipy as _sp
+        print(f"  Python libraries ready  (numpy {_np.__version__}, scipy {_sp.__version__})")
+        print(f"  Interpreter             {sys.executable}")
+        if have("ffmpeg") and have("ffprobe"):
+            print("  ffmpeg / ffprobe        found")
+        else:
+            print("  ffmpeg / ffprobe        NOT FOUND  ->  brew install ffmpeg")
+        return
 
     if not (have("ffmpeg") and have("ffprobe")):
         sys.exit("ERROR: ffmpeg/ffprobe not found on PATH. Install with: brew install ffmpeg")
